@@ -25,6 +25,53 @@ $ ./myJava -Xjre "/Users/zhanghuanyu/Library/Java/JavaVirtualMachines/azul-1.8.0
 output: `classpath:/Users/zhanghuanyu/RustProjects/MyJVM class:java.lang.Object args:[]
 class data: [202 254 186 190 0 0 0 52 0 78 7 0 49 10 0 1 0 50 10 0 17 0 51 10 0...`
 
+### 解析class文件
+使用java8编译下面的java代码
+```java
+package host.ankh;
+
+/**
+ * @author ankh
+ * @created at 2022-12-03 16:12
+ */
+public class testMain {
+    public static final boolean FLAG = true;
+    public static final byte BYTE = 123;
+    public static final char X = 'X';
+    public static final short SHORT = 12345;
+    public static final int INT = 123456789;
+    public static final long LONG = 12345678901L;
+    public static final float PI = 3.14f;
+    public static final double E = 2.71828;
+    public static void main(String[] args) throws RuntimeException {
+        System.out.println("hello world");
+    }
+}
+```
+然后用`myJava`解析，得到的结果如下：
+```
+java.src.testMain
+version: 52.0
+constant count: 59
+access flags: 0x21
+this class: host/ankh/testMain
+super class: java/lang/Object
+interfaces: []
+fields count: 8
+    FLAG
+    BYTE
+    X
+    SHORT
+    INT
+    LONG
+    PI
+    E
+method count: 2
+    <init>
+    main
+
+```
+
 ## 注意
 jdk11之后就没有单独的jre了，用户可以使用`jlink`生成自己的自定义的java运行时，比如：如果只需要java.base的话
 ```shell

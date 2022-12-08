@@ -3,10 +3,10 @@ package cmd
 import (
 	"MyJVM/classfile"
 	"MyJVM/classpath"
+	"MyJVM/rtda"
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 )
 
 type Cmd struct {
@@ -58,16 +58,22 @@ func Start() {
 }
 
 func startJVM(cmd *Cmd) {
-	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
-	fmt.Printf("classpath:%v class:%v args:%v\n", cp, cmd.class, cmd.args)
+	frame := rtda.NewFrame(100, 100)
+	testLocalVars(frame.LocalVars())
+	testOperandStack(frame.OperandStack())
 
-	className := strings.Replace(cmd.class, ".", "/", -1) // 替换所有的.为/
-
-	cf := loadClass(className, cp)
-
-	fmt.Println(cmd.class)
-	printClassInfo(cf)
+	// 第三章测试
+	// cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
+	// fmt.Printf("classpath:%v class:%v args:%v\n", cp, cmd.class, cmd.args)
 	//
+	// className := strings.Replace(cmd.class, ".", "/", -1) // 替换所有的.为/
+	//
+	// cf := loadClass(className, cp)
+	//
+	// fmt.Println(cmd.class)
+	// printClassInfo(cf)
+
+	// 第二章测试
 	// // 查找class
 	// classData, _, err := cp.ReadClass(className)
 	// if err != nil {
@@ -105,4 +111,38 @@ func printClassInfo(cf *classfile.ClassFile) {
 	for _, m := range cf.Methods() {
 		fmt.Printf("    %s\n", m.Name())
 	}
+}
+
+func testLocalVars(vars rtda.LocalVars) {
+	vars.SetInt(0, 100)
+	vars.SetInt(1, -100)
+	vars.SetLong(2, 2997924580)
+	vars.SetLong(4, -2997924580)
+	vars.SetFloat(6, 3.1415926)
+	vars.SetDouble(7, -3.141592653589793)
+	vars.SetRef(9, nil)
+	fmt.Println(vars.GetInt(0))
+	fmt.Println(vars.GetInt(1))
+	fmt.Println(vars.GetLong(2))
+	fmt.Println(vars.GetLong(4))
+	fmt.Println(vars.GetFloat(6))
+	fmt.Println(vars.GetDouble(7))
+	fmt.Println(vars.GetRef(9))
+}
+
+func testOperandStack(ops *rtda.OperandStack) {
+	ops.PushInt(100)
+	ops.PushInt(-100)
+	ops.PushLong(2997924580)
+	ops.PushLong(-2997924580)
+	ops.PushFloat(3.1415926)
+	ops.PushDouble(-3.141592653589793)
+	ops.PushRef(nil)
+	fmt.Println(ops.PopRef())
+	fmt.Println(ops.PopDouble())
+	fmt.Println(ops.PopFloat())
+	fmt.Println(ops.PopLong())
+	fmt.Println(ops.PopLong())
+	fmt.Println(ops.PopInt())
+	fmt.Println(ops.PopInt())
 }
