@@ -24,15 +24,15 @@ func (wide *WIDE) FetchOperands(reader *base.BytecodeReader) {
 		inst.Index = uint(reader.ReadUint16())
 		wide.modifiedInstruction = inst
 	case 0x17: // fload
-		inst := &loads.ILOAD{}
+		inst := &loads.FLOAD{}
 		inst.Index = uint(reader.ReadUint16())
 		wide.modifiedInstruction = inst
 	case 0x18: // dload
-		inst := &loads.ILOAD{}
+		inst := &loads.DLOAD{}
 		inst.Index = uint(reader.ReadUint16())
 		wide.modifiedInstruction = inst
 	case 0x19: // aload
-		inst := &loads.ILOAD{}
+		inst := &loads.ALOAD{}
 		inst.Index = uint(reader.ReadUint16())
 		wide.modifiedInstruction = inst
 	case 0x36: // istore

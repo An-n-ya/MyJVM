@@ -12,8 +12,8 @@ type DLOAD2 struct{ base.NoOperandsInstruction }
 type DLOAD3 struct{ base.NoOperandsInstruction }
 
 func _dload(frame *rtda.Frame, index uint) {
-	val := frame.LocalVars().GetFloat(index)
-	frame.OperandStack().PushFloat(val)
+	val := frame.LocalVars().GetDouble(index)
+	frame.OperandStack().PushDouble(val)
 }
 
 func (dload *DLOAD) Execute(frame *rtda.Frame) {
