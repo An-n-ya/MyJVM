@@ -23,6 +23,10 @@ func (br *BytecodeReader) ReadUint16() uint16 {
 	return (byte1 << 8) | byte2
 }
 
+func (br *BytecodeReader) ReadInt8() int8 {
+	return int8(br.ReadUint8())
+}
+
 func (br *BytecodeReader) ReadInt16() int16 {
 	return int16(br.ReadUint16())
 }

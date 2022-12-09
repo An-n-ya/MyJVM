@@ -1,10 +1,9 @@
-package instructions
+package base
 
 import "MyJVM/rtda"
-import "MyJVM/instructions/base"
 
 type Instruction interface {
-	FetchOperands(reader *base.BytecodeReader)
+	FetchOperands(reader *BytecodeReader)
 	Execute(frame *rtda.Frame)
 }
 
@@ -13,7 +12,7 @@ type Instruction interface {
 // NoOperandsInstruction 没有操作数的指令结构(方便其他没有操作数的指令继承)
 type NoOperandsInstruction struct{}
 
-func (noi *NoOperandsInstruction) FetchOperands(reader *base.BytecodeReader) {
+func (noi *NoOperandsInstruction) FetchOperands(reader *BytecodeReader) {
 	// 没有操作数  什么也不做
 }
 
@@ -22,7 +21,7 @@ type BranchInstruction struct {
 	Offset int
 }
 
-func (bi *BranchInstruction) FetchOperands(reader *base.BytecodeReader) {
+func (bi *BranchInstruction) FetchOperands(reader *BytecodeReader) {
 	// 分支指令结构的操作数就是偏移地址
 	bi.Offset = int(reader.ReadInt16())
 }
@@ -33,7 +32,7 @@ type Index8Instruction struct {
 	Index uint
 }
 
-func (i8i *Index8Instruction) FetchOperands(reader *base.BytecodeReader) {
+func (i8i *Index8Instruction) FetchOperands(reader *BytecodeReader) {
 	i8i.Index = uint(reader.ReadUint8())
 }
 
@@ -43,6 +42,6 @@ type Index16Instruction struct {
 	Index uint
 }
 
-func (i16i *Index16Instruction) FetchOperands(reader *base.BytecodeReader) {
+func (i16i *Index16Instruction) FetchOperands(reader *BytecodeReader) {
 	i16i.Index = uint(reader.ReadUint16())
 }
