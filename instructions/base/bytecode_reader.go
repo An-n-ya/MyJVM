@@ -38,3 +38,18 @@ func (br *BytecodeReader) ReadInt32() int32 {
 	byte4 := int32(br.ReadUint8())
 	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
+
+func (br *BytecodeReader) SkipPadding() {
+	// 往后跳4个字节
+	for br.pc%4 != 0 {
+		br.ReadUint8()
+	}
+}
+
+func (br *BytecodeReader) ReadInt32s(count int32) []int32 {
+	ints := make([]int32, count)
+	for i := range ints {
+		ints[i] = br.ReadInt32()
+	}
+	return ints
+}
