@@ -3,10 +3,12 @@ package cmd
 import (
 	"MyJVM/classfile"
 	"MyJVM/classpath"
+	"MyJVM/interpreter"
 	"MyJVM/rtda"
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Cmd struct {
@@ -58,9 +60,21 @@ func Start() {
 }
 
 func startJVM(cmd *Cmd) {
-	frame := rtda.NewFrame(100, 100)
-	testLocalVars(frame.LocalVars())
-	testOperandStack(frame.OperandStack())
+	// 第五章测试
+	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
+	className := strings.Replace(cmd.class, ".", "/", -1)
+	cf := loadClass(className, cp)
+	mainMethod := getMainMethod(cf)
+	if mainMethod != nil {
+		interpreter.Interpret(mainMethod)
+	} else {
+		fmt.Printf("Main method not found in class %s\n", cmd.class)
+	}
+
+	// // 第四章测试
+	// frame := rtda.NewFrame(100, 100)
+	// testLocalVars(frame.LocalVars())
+	// testOperandStack(frame.OperandStack())
 
 	// 第三章测试
 	// cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
@@ -94,6 +108,16 @@ func loadClass(className string, cp *classpath.ClassPath) *classfile.ClassFile {
 		panic(err)
 	}
 	return cf
+}
+
+func getMainMethod(cf *classfile.ClassFile) *classfile.MemberInfo {
+	// 找main方法
+	for _, m := range cf.Methods() {
+		if m.Name() == "main" && m.Descriptor() == "([Ljava/lang/String;)V" {
+			return m
+		}
+	}
+	return nil
 }
 
 func printClassInfo(cf *classfile.ClassFile) {

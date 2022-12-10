@@ -2,12 +2,13 @@ package interpreter
 
 import (
 	"MyJVM/classfile"
+	"MyJVM/instructions"
 	"MyJVM/instructions/base"
 	"MyJVM/rtda"
 	"fmt"
 )
 
-func interpret(methodInfo *classfile.MemberInfo) {
+func Interpret(methodInfo *classfile.MemberInfo) {
 	// 从memberInfo中获取code属性
 	codeAttr := methodInfo.CodeAttribute()
 	maxLocals := codeAttr.MaxLocals()

@@ -72,6 +72,12 @@ method count: 2
 
 ```
 
+### 初步测试字节码
+```shell
+make test
+```
+目前还没有实现 getstatic 字节码， 而很多程序都需要这条指令，所以暂时不太好测试当前进度
+
 ## 注意
 jdk11之后就没有单独的jre了，用户可以使用`jlink`生成自己的自定义的java运行时，比如：如果只需要java.base的话
 ```shell
