@@ -1,4 +1,4 @@
-package cosntants
+package constants
 
 import (
 	"MyJVM/instructions/base"

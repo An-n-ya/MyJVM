@@ -16,6 +16,16 @@ type ExceptionTableEntry struct {
 	catchPc   uint16
 }
 
+func (self *CodeAttribute) MaxStack() uint16 {
+	return self.maxStack
+}
+func (self *CodeAttribute) Code() []byte {
+	return self.code
+}
+func (self *CodeAttribute) MaxLocals() uint16 {
+	return self.maxLocals
+}
+
 func (self *CodeAttribute) readInfo(reader *ClassReader) {
 	self.maxStack = reader.readUint16()
 	self.maxLocals = reader.readUint16()

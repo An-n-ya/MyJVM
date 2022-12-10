@@ -11,6 +11,14 @@ func NewThread() *Thread {
 	}
 }
 
+func (t *Thread) PC() int {
+	return t.pc
+}
+
+func (t *Thread) SetPC(pc int) {
+	t.pc = pc
+}
+
 // 压入一个栈帧
 func (t *Thread) PushFrame(frame *Frame) {
 	t.stack.push(frame)
@@ -24,4 +32,8 @@ func (t *Thread) PopFrame() *Frame {
 // 返回当前栈帧
 func (t *Thread) CurrentFrame() *Frame {
 	return t.stack.top()
+}
+
+func (t *Thread) NewFrame(locals uint16, stack uint16) *Frame {
+	return newFrame(t, uint(locals), uint(stack))
 }
